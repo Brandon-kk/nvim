@@ -105,7 +105,7 @@ vim.api.nvim_create_autocmd("UIEnter", {
 							ui = {
 								live = "󰐰 ",
 								hidden = "󱞞 ",
-								ignored = "",
+								ignored = " ",
 								follow = "󰬍 ",
 								selected = " ",
 								unselected = " ",
