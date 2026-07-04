@@ -7,12 +7,12 @@ local P = {
 	module = "mini.icons",
 }
 
-PackUtils.register_plugin(P)
+Pack.register(P)
 
 vim.api.nvim_create_autocmd("UIEnter", {
 	callback = function()
 		vim.schedule(function()
-			PackUtils.load_plugin(P, function(plugin)
+			Pack.load(P, function(plugin)
 				plugin.mock_nvim_web_devicons()
 				plugin.setup({
 					style = "glyph",

@@ -1,9 +1,9 @@
 -- ==============================================================
 -- 执行启动流程
--- configs/*.lua 内通过 PackUtils.register_plugin(P) 声明 spec / disabled
+-- configs/*.lua 内通过 Pack.register(P) 声明 spec / disabled
 -- ==============================================================
 
-PackUtils.setup_pack_restart()
+Pack.restart()
 
 local config_path = vim.fn.stdpath("config") .. "/lua/packages/configs"
 if vim.fn.isdirectory(config_path) == 1 then
@@ -18,4 +18,4 @@ if vim.fn.isdirectory(config_path) == 1 then
 	end
 end
 
-PackUtils.bootstrap_plugins()
+Pack.boot()

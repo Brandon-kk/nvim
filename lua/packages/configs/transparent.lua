@@ -7,7 +7,7 @@ local P = {
 	module = "transparent",
 }
 
-PackUtils.register_plugin(P)
+Pack.register(P)
 
 local function clear_lualine_highlights()
 	pcall(function()
@@ -15,7 +15,7 @@ local function clear_lualine_highlights()
 	end)
 end
 
-PackUtils.load_plugin(P, function(plugin)
+Pack.load(P, function(plugin)
 	plugin.setup({
 		groups = {
 			"Normal",

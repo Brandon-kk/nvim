@@ -7,7 +7,7 @@ return {
 		"typescriptreact",
 		"vue",
 	},
-	root_dir = PackUtils.lsp_root_dir({
+	root_dir = Pack.root({
 		"package.json",
 		"jsconfig.json",
 		"tsconfig.json",

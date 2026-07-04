@@ -1,7 +1,7 @@
 --- 按 marker 向上查找项目根，找不到则回退到 cwd，便于单文件场景下 LSP 仍能启动。
 ---@param markers string|(string|string[])[]
 ---@return fun(bufnr: integer, on_dir: fun(dir: string))
-local function lsp_root_dir(markers)
+local function root(markers)
 	return function(bufnr, on_dir)
 		local root_markers = markers
 		root_markers = vim.fn.has("nvim-0.11.3") == 1 and { root_markers, { ".git" } }
@@ -10,4 +10,4 @@ local function lsp_root_dir(markers)
 	end
 end
 
-return lsp_root_dir
+return root

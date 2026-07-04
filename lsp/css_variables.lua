@@ -1,7 +1,7 @@
 return {
 	cmd = { "css-variables-language-server", "--stdio" },
 	filetypes = { "css", "scss", "less", "vue" },
-	root_dir = PackUtils.lsp_root_dir({
+	root_dir = Pack.root({
 		"package-lock.json",
 		"yarn.lock",
 		"pnpm-lock.yaml",

@@ -1,5 +1,5 @@
 --- :PackUpdate / :PackStatus 命令的插件名 Tab 补全
-local function complete_plugin_names(arg_lead)
+local function complete(arg_lead)
 	local installed = vim.pack.get(nil, { info = false })
 	local names = {}
 	for _, p in ipairs(installed) do
@@ -12,4 +12,4 @@ local function complete_plugin_names(arg_lead)
 	return names
 end
 
-return complete_plugin_names
+return complete

@@ -10,11 +10,11 @@ local P = {
 	module = "catppuccin",
 }
 
-PackUtils.register_plugin(P)
+Pack.register(P)
 
 vim.api.nvim_create_autocmd("VimEnter", {
 	callback = function()
-		PackUtils.load_plugin(P, function(plugin)
+		Pack.load(P, function(plugin)
 			plugin.setup({
 				flavour = "mocha",
 				transparent_background = true,

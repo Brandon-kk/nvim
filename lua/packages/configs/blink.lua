@@ -13,7 +13,7 @@ local P = {
 	module = "blink.cmp",
 }
 
-PackUtils.register_plugin(P)
+Pack.register(P)
 
 vim.api.nvim_create_autocmd({ "InsertEnter", "CmdlineEnter", "LspAttach" }, {
 	once = true,
@@ -38,7 +38,7 @@ vim.api.nvim_create_autocmd({ "InsertEnter", "CmdlineEnter", "LspAttach" }, {
 			}
 		end
 
-		PackUtils.load_plugin(P, function(plugin)
+		Pack.load(P, function(plugin)
 			plugin.build():pwait()
 			plugin.setup({
 				keymap = {

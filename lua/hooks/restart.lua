@@ -14,14 +14,14 @@ local function should_auto_restart()
 	return true
 end
 
-local function setup_pack_restart()
+local function restart()
 	if listener_ready then
 		return
 	end
 	listener_ready = true
 
 	vim.api.nvim_create_autocmd("PackChanged", {
-		group = vim.api.nvim_create_augroup("PackUtilsAutoRestart", { clear = true }),
+		group = vim.api.nvim_create_augroup("PackAutoRestart", { clear = true }),
 		callback = function(ev)
 			if ev.data.kind == "install" then
 				installed[#installed + 1] = ev.data.spec.name
@@ -30,7 +30,7 @@ local function setup_pack_restart()
 	})
 end
 
-local function maybe_restart_after_install()
+local function relaunch()
 	if #installed == 0 or not should_auto_restart() then
 		return
 	end
@@ -44,6 +44,6 @@ local function maybe_restart_after_install()
 end
 
 return {
-	setup_pack_restart = setup_pack_restart,
-	maybe_restart_after_install = maybe_restart_after_install,
+	restart = restart,
+	relaunch = relaunch,
 }

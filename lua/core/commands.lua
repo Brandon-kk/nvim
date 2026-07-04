@@ -12,7 +12,7 @@ vim.api.nvim_create_user_command("PackUpdate", function(opts)
 end, {
 	nargs = "*",
 	bang = true,
-	complete = PackUtils.complete_plugin_names,
+	complete = Pack.complete,
 	desc = "Update plugins (use ! to skip confirmation)",
 })
 
@@ -21,7 +21,7 @@ vim.api.nvim_create_user_command("PackStatus", function(opts)
 	vim.pack.update(targets, { offline = true })
 end, {
 	nargs = "*",
-	complete = PackUtils.complete_plugin_names,
+	complete = Pack.complete,
 	desc = "Check plugin status without downloading",
 })
 

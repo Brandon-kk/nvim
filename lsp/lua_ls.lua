@@ -1,11 +1,11 @@
 return {
 	cmd = { "lua-language-server" },
 	filetypes = { "lua" },
-	root_dir = PackUtils.lsp_root_dir({ ".luarc.json", ".luarc.jsonc" }),
+	root_dir = Pack.root({ ".luarc.json", ".luarc.jsonc" }),
 	settings = {
 		Lua = {
 			diagnostics = {
-				globals = { "PackUtils", "Snacks" },
+				globals = { "Pack", "Snacks" },
 			},
 			workspace = {
 				checkThirdParty = false,

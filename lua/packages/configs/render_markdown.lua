@@ -7,12 +7,12 @@ local P = {
 	module = "render-markdown",
 }
 
-PackUtils.register_plugin(P)
+Pack.register(P)
 
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = { "markdown" },
 	callback = function()
-		PackUtils.load_plugin(P, function(plugin)
+		Pack.load(P, function(plugin)
 			plugin.setup({
 				file_types = { "markdown" },
 				bullet = {

@@ -30,7 +30,7 @@ local P = {
 	build_cmd = ":TSUpdate",
 }
 
-PackUtils.register_plugin(P)
+Pack.register(P)
 
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = ensure_installed,
@@ -55,7 +55,7 @@ vim.api.nvim_create_autocmd("FileType", {
 
 		local no_err, is_added = pcall(vim.treesitter.language.add, lang)
 		if not no_err or not is_added then
-			PackUtils.load_plugin(P, function(plugin)
+			Pack.load(P, function(plugin)
 				vim.notify("🌱 Installing " .. lang .. " parser...", vim.log.levels.INFO)
 				plugin.install({ lang }):wait(60000)
 				pcall(vim.treesitter.language.add, lang)

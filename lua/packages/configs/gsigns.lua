@@ -7,12 +7,12 @@ local P = {
 	module = "gitsigns",
 }
 
-PackUtils.register_plugin(P)
+Pack.register(P)
 
 vim.api.nvim_create_autocmd("UIEnter", {
 	callback = function()
 		vim.schedule(function()
-			PackUtils.load_plugin(P, function(plugin)
+			Pack.load(P, function(plugin)
 				plugin.setup({
 					signs_staged_enable = false,
 					signcolumn = false,

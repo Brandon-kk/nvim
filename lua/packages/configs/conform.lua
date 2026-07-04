@@ -20,11 +20,11 @@ local P = {
 	module = "conform",
 }
 
-PackUtils.register_plugin(P)
+Pack.register(P)
 
 vim.api.nvim_create_autocmd("BufWritePost", {
 	callback = function()
-		PackUtils.load_plugin(P, function(plugin)
+		Pack.load(P, function(plugin)
 			plugin.setup({
 				formatters_by_ft = {
 					lua = { "stylua" },

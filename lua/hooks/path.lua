@@ -1,7 +1,7 @@
 --- 解析插件在 packpath 上的安装路径
-local function resolve_plugin_path(name)
-	local PackUtils = _G.PackUtils
-	name = PackUtils.parse_spec_name(name)
+local function path(name)
+	local Pack = _G.Pack
+	name = Pack.parse(name)
 	local paths = vim.api.nvim_get_runtime_file("pack/*/*/" .. name, true)
 	if #paths > 0 then
 		return paths[1]
@@ -10,4 +10,4 @@ local function resolve_plugin_path(name)
 	return glob[1] or nil
 end
 
-return resolve_plugin_path
+return path
