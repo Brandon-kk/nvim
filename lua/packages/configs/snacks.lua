@@ -78,6 +78,15 @@ vim.api.nvim_create_autocmd("UIEnter", {
 							explorer = {
 								jump = { close = true },
 							},
+							projects = {
+								projects = {
+									"~/.config/kitty/",
+									"~/.config/lazygit/",
+								},
+								dev = { "~/.config", "~/Documents/Wors", "~/Documents/Private" },
+								max_depth = 2,
+								recent = false,
+							},
 						},
 						formatters = {
 							file = {

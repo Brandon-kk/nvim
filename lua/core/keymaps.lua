@@ -30,6 +30,19 @@ vim.keymap.set("n", "<leader>fh", function()
 	Snacks.picker.help()
 end, { desc = "Open snacks help" })
 
+vim.keymap.set("n", "<leader>fp", function()
+	Snacks.picker.projects({
+		layout = {
+			preset = "select",
+			layout = {
+				width = 0.4,
+				height = 0.4,
+				min_width = 40,
+			},
+		},
+	})
+end, { desc = "Open snacks project" })
+
 vim.keymap.set("n", "<leader>fs", function()
 	Snacks.picker.lsp_workspace_symbols({
 		layout = "left",
@@ -51,7 +64,16 @@ vim.keymap.set("n", "<leader>e", function()
 end, { desc = "Open snacks explorer" })
 
 vim.keymap.set("n", "<leader>ff", function()
-	Snacks.picker.files({ layout = "select" })
+	Snacks.picker.files({
+		layout = {
+			preset = "select",
+			layout = {
+				width = 0.5,
+				height = 0.6,
+				min_width = 80,
+			},
+		},
+	})
 end, { desc = "Find files" })
 
 vim.keymap.set("n", "<leader>fo", function()
