@@ -40,6 +40,9 @@ vim.api.nvim_create_autocmd({ "InsertLeave", "TextChanged" }, {
 	nested = true,
 	callback = function()
 		vim.fn.execute("silent! write!")
-		require("conform").format({ async = true, timeout_ms = 3000 })
+		local ok, conform = pcall(require, "conform")
+		if ok then
+			conform.format({ async = true, timeout_ms = 3000 })
+		end
 	end,
 })

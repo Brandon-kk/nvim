@@ -10,7 +10,13 @@ local P = {
 			module = "mason",
 			immediately = true,
 			setup = function(plugin)
-				plugin.setup({ PATH = "prepend" })
+				plugin.setup({
+					PATH = "prepend",
+					ui = {
+						width = 0.65,
+						height = 0.75,
+					},
+				})
 			end,
 			deps = {
 				"https://github.com/mason-org/mason-registry",
