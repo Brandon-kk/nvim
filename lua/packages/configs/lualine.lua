@@ -31,8 +31,8 @@ vim.api.nvim_create_autocmd("FileType", {
 						end
 						return base
 					end,
-					component_separators = { left = " ", right = "  " },
-					section_separators = { left = "  ", right = "  " },
+					component_separators = { left = " ", right = " " },
+					section_separators = { left = " ", right = " " },
 					always_divide_middle = true,
 					globalstatus = true,
 					refresh = {
@@ -41,14 +41,8 @@ vim.api.nvim_create_autocmd("FileType", {
 					},
 				},
 				sections = {
-					lualine_a = {
-						"diff",
-					},
+					lualine_a = {},
 					lualine_b = {
-						{
-							"filetype",
-							icon_only = true,
-						},
 						"branch",
 						{
 							"filename",
@@ -60,12 +54,24 @@ vim.api.nvim_create_autocmd("FileType", {
 							},
 						},
 						{
+							"filetype",
+							icon_only = true,
+						},
+						{
 							"overseer",
 							colored = true,
 						},
 					},
-					lualine_c = {},
+					lualine_c = {
+						{
+							"filesize",
+							icons_enabled = true,
+							icon = { "", align = "right" },
+							color = { fg = "#f9e2af" },
+						},
+					},
 					lualine_x = {
+						"diff",
 						{
 							"diagnostics",
 							sources = { "nvim_diagnostic" },
@@ -84,8 +90,6 @@ vim.api.nvim_create_autocmd("FileType", {
 					},
 					lualine_y = {
 						{ "datetime", style = "󰄉 %Y˚%m˚%d | %H:%M:%S" },
-					},
-					lualine_z = {
 						{
 							"lsp-status",
 							show_count = false,
@@ -106,6 +110,7 @@ vim.api.nvim_create_autocmd("FileType", {
 							},
 						},
 					},
+					lualine_z = {},
 				},
 			})
 		end)
