@@ -4,6 +4,9 @@ return {
 	root_dir = Pack.root({ ".luarc.json", ".luarc.jsonc" }),
 	settings = {
 		Lua = {
+			runtime = {
+				version = "LuaJIT",
+			},
 			diagnostics = {
 				globals = { "Pack", "Snacks" },
 			},
