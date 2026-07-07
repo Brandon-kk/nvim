@@ -22,6 +22,7 @@ local ensure_installed = {
 	"scss",
 	"yaml",
 	"vue",
+	"ruby",
 }
 
 local P = {
