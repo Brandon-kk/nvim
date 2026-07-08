@@ -53,19 +53,13 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 							"filetype",
 							icon_only = true,
 						},
+						{ "datetime", style = "󰄉 %Y˚%m˚%d | %H:%M:%S" },
 						{
 							"overseer",
 							colored = true,
 						},
 					},
-					lualine_c = {
-						{
-							"filesize",
-							icons_enabled = true,
-							icon = { "", align = "right" },
-							color = { fg = "#f9e2af" },
-						},
-					},
+					lualine_c = {},
 					lualine_x = {
 						"diff",
 						{
@@ -85,7 +79,6 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 						},
 					},
 					lualine_y = {
-						{ "datetime", style = "󰄉 %Y˚%m˚%d | %H:%M:%S" },
 						{
 							"lsp-status",
 							show_count = false,
@@ -108,7 +101,14 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 							},
 						},
 					},
-					lualine_z = {},
+					lualine_z = {
+						{
+							"filesize",
+							icons_enabled = true,
+							icon = { "", align = "right" },
+							color = { fg = "#a6e3a1" },
+						},
+					},
 				},
 			})
 		end)

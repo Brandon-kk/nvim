@@ -101,6 +101,3 @@ vim.keymap.set("n", "<leader>ft", function()
 	vim.cmd.OverseerToggle()
 end, { desc = "Toggle overseer task list" })
 
-vim.keymap.set({ "n", "x", "o" }, "f", function()
-	require("flash").jump()
-end, { desc = "Flash" })
