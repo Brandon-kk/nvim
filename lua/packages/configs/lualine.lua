@@ -1,119 +1,114 @@
-local P = {
+Pack.register({
 	spec = "https://github.com/nvim-lualine/lualine.nvim",
 	module = "lualine",
 	deps = {
 		"https://github.com/pnx/lualine-lsp-status",
 	},
-}
-
-Pack.register(P)
-
-vim.api.nvim_create_autocmd("BufReadPost", {
+}):load({
+	event = "BufReadPost",
 	once = true,
-	callback = function()
-		Pack.load(P, function(plugin)
-			plugin.setup({
-				options = {
-					icons_enabled = true,
-					theme = function()
-						local base = require("lualine.themes.auto")
-						for _, mode in pairs(base) do
-							if type(mode) == "table" then
-								for _, section in pairs(mode) do
-									if type(section) == "table" then
-										section.bg = "NONE"
-									end
+	config = function(plugin)
+		plugin.setup({
+			options = {
+				icons_enabled = true,
+				theme = function()
+					local base = require("lualine.themes.auto")
+					for _, mode in pairs(base) do
+						if type(mode) == "table" then
+							for _, section in pairs(mode) do
+								if type(section) == "table" then
+									section.bg = "NONE"
 								end
 							end
 						end
-						return base
-					end,
-					component_separators = { left = " ", right = " " },
-					section_separators = { left = " ", right = " " },
-					always_divide_middle = true,
-					globalstatus = true,
+					end
+					return base
+				end,
+				component_separators = { left = " ", right = " " },
+				section_separators = { left = " ", right = " " },
+				always_divide_middle = true,
+				globalstatus = true,
+			},
+			sections = {
+				lualine_a = {},
+				lualine_b = {
+					{
+						"filetype",
+						icon_only = false,
+					},
+					{
+						"overseer",
+						colored = true,
+					},
 				},
-				sections = {
-					lualine_a = {},
-					lualine_b = {
-						{
-							"filetype",
-							icon_only = false,
-						},
-						{
-							"overseer",
-							colored = true,
-						},
+				lualine_c = {
+					{ "datetime", style = "󰄉 %Y˚%m˚%d | %H:%M:%S", color = { fg = "#f38ba8" } },
+				},
+				lualine_x = {
+					{
+						"branch",
+						icon = { "" },
+						color = { fg = "#b4befe" },
 					},
-					lualine_c = {
-						{ "datetime", style = "󰄉 %Y˚%m˚%d | %H:%M:%S", color = { fg = "#f38ba8" } },
+					"diff",
+					{
+						"diagnostics",
+						sources = { "nvim_diagnostic" },
+						sections = { "error", "warn", "info", "hint" },
+						diagnostics_color = {
+							error = "DiagnosticError",
+							warn = "DiagnosticWarn",
+							info = "DiagnosticInfo",
+							hint = "DiagnosticHint",
+						},
+						symbols = { error = "󰬌 ", warn = "󰬞 ", info = "󰬐 ", hint = "󰬏 " },
+						colored = true,
+						update_in_insert = true,
+						always_visible = true,
 					},
-					lualine_x = {
-						{
-							"branch",
-							icon = { "" },
-							color = { fg = "#b4befe" },
+				},
+				lualine_y = {
+					{
+						"lsp-status",
+						show_count = false,
+						disabled_filetypes = {
+							"mason",
+							"NvimTree",
+							"TelescopePrompt",
+							"toggleterm",
+							"codecompanion",
+							"markdown",
+							"snacks_picker_input",
+							"snacks_picker_list",
+							"unnamed",
+							"snacks_dashboard",
+							"toml",
 						},
-						"diff",
-						{
-							"diagnostics",
-							sources = { "nvim_diagnostic" },
-							sections = { "error", "warn", "info", "hint" },
-							diagnostics_color = {
-								error = "DiagnosticError",
-								warn = "DiagnosticWarn",
-								info = "DiagnosticInfo",
-								hint = "DiagnosticHint",
-							},
-							symbols = { error = "󰬌 ", warn = "󰬞 ", info = "󰬐 ", hint = "󰬏 " },
-							colored = true,
-							update_in_insert = true,
-							always_visible = true,
-						},
-					},
-					lualine_y = {
-						{
-							"lsp-status",
-							show_count = false,
-							disabled_filetypes = {
-								"mason",
-								"NvimTree",
-								"TelescopePrompt",
-								"toggleterm",
-								"codecompanion",
-								"markdown",
-								"snacks_picker_input",
-								"snacks_picker_list",
-								"unnamed",
-								"snacks_dashboard",
-								"toml",
-							},
-							icons = {
-								active = "",
-								inactive = "",
-							},
-						},
-					},
-					lualine_z = {
-						{
-							"filesize",
-							icons_enabled = true,
-							icon = { "", align = "right" },
-							color = { fg = "#a6e3a1" },
-						},
-						{
-							"filename",
-							path = 0,
-							file_status = false,
-							newfile_status = false,
-							symbols = {
-								unnamed = " ",
-							},
-							color = { fg = "#b4befe" },
+						icons = {
+							active = "",
+							inactive = "",
 						},
 					},
 				},
-			})
-		end)
+				lualine_z = {
+					{
+						"filesize",
+						icons_enabled = true,
+						icon = { "", align = "right" },
+						color = { fg = "#a6e3a1" },
+					},
+					{
+						"filename",
+						path = 0,
+						file_status = false,
+						newfile_status = false,
+						symbols = {
+							unnamed = "󱉍 Unnamed",
+						},
+						color = { fg = "#b4befe" },
+					},
+				},
+			},
+		})
 	end,
 })

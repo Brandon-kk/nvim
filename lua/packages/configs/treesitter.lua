@@ -21,18 +21,17 @@ local ensure_installed = {
 	"ruby",
 }
 
-local P = {
+local setup_done = false
+
+Pack.register({
 	spec = "https://github.com/nvim-treesitter/nvim-treesitter",
 	module = "nvim-treesitter",
 	build_cmd = ":TSUpdate",
-}
-
-Pack.register(P)
-
-vim.api.nvim_create_autocmd("FileType", {
+}):load({
+	event = "FileType",
 	pattern = ensure_installed,
-	callback = function(args)
-		local buf = args.buf
+	config = function(plugin)
+		local buf = vim.api.nvim_get_current_buf()
 		local ft = vim.bo[buf].filetype
 		if ft == "" or ft == "yazi" or vim.bo[buf].buftype ~= "" then
 			return
@@ -51,15 +50,16 @@ vim.api.nvim_create_autocmd("FileType", {
 
 		local no_err, is_added = pcall(vim.treesitter.language.add, lang)
 		if not no_err or not is_added then
-			Pack.load(P, function(plugin)
-				vim.notify("🌱 Installing " .. lang .. " parser...", vim.log.levels.INFO)
-				plugin.install({ lang }):wait(60000)
-				pcall(vim.treesitter.language.add, lang)
+			vim.notify("🌱 Installing " .. lang .. " parser...", vim.log.levels.INFO)
+			plugin.install({ lang }):wait(60000)
+			pcall(vim.treesitter.language.add, lang)
 
+			if not setup_done then
 				plugin.setup({
 					install_dir = vim.fn.stdpath("data") .. "/site",
 				})
-			end)
+				setup_done = true
+			end
 		end
 
 		pcall(vim.treesitter.start, buf, lang)

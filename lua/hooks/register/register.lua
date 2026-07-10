@@ -3,12 +3,14 @@ local cycle = require("hooks.deps.cycle")
 local notify_once = require("hooks.util.notify_once")
 local ensure_spec = require("hooks.register.ensure_spec")
 local register_dep_tree = require("hooks.register.dep_tree")
+local Handle = require("hooks.register.handle")
 
 ---@param P table
+---@return table|nil handle
 return function(P)
 	local Pack = _G.Pack
 	if not P or not P.spec then
-		return
+		return nil
 	end
 
 	local id_ok, id_err = pcall(Pack.identity, P)
@@ -18,7 +20,7 @@ return function(P)
 			"Pack.register: 无法解析插件名\n" .. tostring(id_err or "unknown"),
 			vim.log.levels.ERROR
 		)
-		return
+		return nil
 	end
 
 	P.disabled = P.disabled == true
@@ -34,7 +36,7 @@ return function(P)
 	local cycle_ok, cycle_err = cycle.check_tree(P.name, P.deps)
 	if not cycle_ok then
 		notify_once("register:cycle:" .. (P.name or "?"), cycle_err, vim.log.levels.ERROR)
-		return
+		return nil
 	end
 
 	if P.deps then
@@ -57,4 +59,6 @@ return function(P)
 	if P.build_cmd then
 		Pack.listen(P.name, P.build_cmd)
 	end
+
+	return Handle.new(P)
 end

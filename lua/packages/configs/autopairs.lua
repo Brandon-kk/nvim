@@ -1,15 +1,10 @@
-local P = {
+Pack.register({
 	spec = "https://github.com/windwp/nvim-autopairs",
 	module = "nvim-autopairs",
-}
-
-Pack.register(P)
-
-vim.api.nvim_create_autocmd("InsertEnter", {
+}):load({
+	event = "InsertEnter",
 	once = true,
-	callback = function()
-		Pack.load(P, function(plugin)
-			plugin.setup({})
-		end)
+	config = function(plugin)
+		plugin.setup({})
 	end,
 })

@@ -1,61 +1,56 @@
-local P = {
+Pack.register({
 	spec = "https://github.com/MeanderingProgrammer/render-markdown.nvim",
 	module = "render-markdown",
-}
-
-Pack.register(P)
-
-vim.api.nvim_create_autocmd("FileType", {
+}):load({
+	event = "FileType",
 	pattern = { "markdown" },
-	callback = function()
-		Pack.load(P, function(plugin)
-			plugin.setup({
-				file_types = { "markdown" },
-				bullet = {
-					highlight = "RenderMarkdownH2",
-					icons = { "●", "○", "◆", "◇" },
+	config = function(plugin)
+		plugin.setup({
+			file_types = { "markdown" },
+			bullet = {
+				highlight = "RenderMarkdownH2",
+				icons = { "●", "○", "◆", "◇" },
+			},
+			heading = {
+				position = "inline",
+				icons = { "󰉫 ", "󰉬 ", "󰉭 ", "󰉮 ", "󰉯 ", "󰉰 " },
+				backgrounds = {
+					"RenderMarkdownH1",
+					"RenderMarkdownH2",
+					"RenderMarkdownH3",
+					"RenderMarkdownH4",
+					"RenderMarkdownH5",
+					"RenderMarkdownH6",
 				},
-				heading = {
-					position = "inline",
-					icons = { "󰉫 ", "󰉬 ", "󰉭 ", "󰉮 ", "󰉯 ", "󰉰 " },
-					backgrounds = {
-						"RenderMarkdownH1",
-						"RenderMarkdownH2",
-						"RenderMarkdownH3",
-						"RenderMarkdownH4",
-						"RenderMarkdownH5",
-						"RenderMarkdownH6",
-					},
-					foregrounds = {
-						"RenderMarkdownH1",
-						"RenderMarkdownH2",
-						"RenderMarkdownH3",
-						"RenderMarkdownH4",
-						"RenderMarkdownH5",
-						"RenderMarkdownH6",
-					},
+				foregrounds = {
+					"RenderMarkdownH1",
+					"RenderMarkdownH2",
+					"RenderMarkdownH3",
+					"RenderMarkdownH4",
+					"RenderMarkdownH5",
+					"RenderMarkdownH6",
 				},
-				quote = {},
-				dash = { icon = "" },
-				code = {
-					above = "",
-					below = "",
-					highlight = "",
-					highlight_inline = "",
-				},
-				pipe_table = {
-					preset = "round",
-					row = "@markup.row",
-				},
-				win_options = { concealcursor = { rendered = "nvc" } },
-				completions = {
-					blink = { enabled = true },
-					lsp = { enabled = true },
-				},
-				anti_conceal = {
-					disabled_modes = { "n" },
-				},
-			})
-		end)
+			},
+			quote = {},
+			dash = { icon = "" },
+			code = {
+				above = "",
+				below = "",
+				highlight = "",
+				highlight_inline = "",
+			},
+			pipe_table = {
+				preset = "round",
+				row = "@markup.row",
+			},
+			win_options = { concealcursor = { rendered = "nvc" } },
+			completions = {
+				blink = { enabled = true },
+				lsp = { enabled = true },
+			},
+			anti_conceal = {
+				disabled_modes = { "n" },
+			},
+		})
 	end,
 })
