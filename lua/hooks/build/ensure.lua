@@ -29,8 +29,7 @@ return function(name, build)
 		return
 	end
 	local dir = Pack.path(name)
-	local P = Pack.registry[name]
-	if not dir or stamp.current(dir, build, P and P.build_id) then
+	if not dir or stamp.current(dir, build) then
 		return
 	end
 	if Pack.building[name] or retry.pending(name) then

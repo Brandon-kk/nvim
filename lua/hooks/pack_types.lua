@@ -50,8 +50,6 @@
 --- Post-install build: shell, ":TSUpdate", or function
 ---@field lock? boolean true 时跳过 :PackUpdate：本插件及其全部 dependencies 一并锁定
 --- Skip :PackUpdate for this plugin and its entire dependency tree when true
----@field build_id? string 可选；变更时强制重建（函数 build 指纹补充）
---- Optional; change to force rebuild (supplements function build fingerprint)
 ---@field _registered? boolean 内部：已完成 Pack.register
 --- Internal: already passed through Pack.register
 

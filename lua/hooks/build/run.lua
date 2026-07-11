@@ -47,7 +47,7 @@ return function(name, build_cmd, on_finish, opts)
 				retry.reset(name)
 				failed.remove(name)
 				local P = Pack.registry[name]
-				stamp.write(dir, build_cmd, P and P.build_id)
+				stamp.write(dir, build_cmd)
 				-- Per-plugin success is silent; batch reports overall "Build success"
 				vim.api.nvim_exec_autocmds("User", {
 					pattern = "PackBuildDone",

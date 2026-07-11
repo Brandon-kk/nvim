@@ -23,11 +23,10 @@ local function collect_pending(names, opts)
 	for name, build in pairs(cmds.all()) do
 		local skip = (want and not want[name]) or Pack.disabled[name] or false
 		local dir = not skip and Pack.path(name) or nil
-		local P = Pack.registry[name]
 		if not skip and not dir then
 			skip = true
 		end
-		if not skip and not opts.force and stamp.current(dir, build, P and P.build_id) then
+		if not skip and not opts.force and stamp.current(dir, build) then
 			skip = true
 		end
 		-- 已在 building：仍纳入 todo，run 会返回 already building，再等待结果归并
@@ -68,8 +67,7 @@ local function wait_inflight(item, on_settled)
 			timer:stop()
 			timer:close()
 			local dir = Pack.path(item.name)
-			local P = Pack.registry[item.name]
-			on_settled(dir ~= nil and stamp.current(dir, item.build, P and P.build_id))
+			on_settled(dir ~= nil and stamp.current(dir, item.build))
 		end)
 	)
 end

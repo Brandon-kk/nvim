@@ -1,3 +1,4 @@
+--
 Pack.register({
 	"https://github.com/saghen/blink.cmp",
 	dependencies = {
@@ -39,7 +40,6 @@ Pack.register({
 				end,
 			}
 		end,
-
 		label_text = function(ctx)
 			return colorful_menu.blink_components_text(ctx)
 		end,

@@ -17,8 +17,7 @@ local function needs_build(name)
 	if not dir then
 		return false
 	end
-	local P = Pack.registry[name]
-	return not stamp.current(dir, build, P and P.build_id)
+	return not stamp.current(dir, build)
 end
 
 ---@param targets? string[]
