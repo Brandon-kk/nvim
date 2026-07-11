@@ -30,4 +30,6 @@ _G.Pack = vim.tbl_extend("force", _G.Pack or {
 
 _G.Pack = require("hooks.util.seal_pack")(_G.Pack)
 
+require("hooks.commands")()
+
 return _G.Pack
