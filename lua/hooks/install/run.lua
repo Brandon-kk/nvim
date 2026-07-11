@@ -45,7 +45,16 @@ return function(active_specs, disabled_specs)
 
 	local fp = fingerprint()
 	local stamp_lines = vim.fn.filereadable(stamp_path) == 1 and vim.fn.readfile(stamp_path) or {}
+	local sorted = sort(active_specs)
+	if not sorted then
+		vim.notify("install 已中止: 依赖排序失败", vim.log.levels.ERROR)
+		return
+	end
+
+	-- 指纹命中：仍须 vim.pack.add 登记本会话 active；只跳过 sync/repair
+	-- Stamp hit: still vim.pack.add so session marks plugins active; skip sync/repair only
 	if stamp_lines[1] == fp and all_available() then
+		vim.pack.add(sorted, { confirm = false, load = false })
 		eager()
 		Pack.relaunch()
 		return
@@ -53,11 +62,6 @@ return function(active_specs, disabled_specs)
 
 	Pack.sync(active_specs, disabled_specs)
 	Pack.repair()
-	local sorted = sort(active_specs)
-	if not sorted then
-		vim.notify("install 已中止: 依赖排序失败", vim.log.levels.ERROR)
-		return
-	end
 	vim.pack.add(sorted, { confirm = false, load = false })
 	eager()
 	Pack.relaunch()
