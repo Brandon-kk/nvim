@@ -26,7 +26,7 @@ local ft_parsers = {
 local setup_done = false
 
 Pack.register({
-	spec = "https://github.com/nvim-treesitter/nvim-treesitter",
+	"https://github.com/nvim-treesitter/nvim-treesitter",
 	module = "nvim-treesitter",
 }):load({
 	event = "FileType",

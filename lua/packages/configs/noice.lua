@@ -1,5 +1,5 @@
 Pack.register({
-	spec = "https://github.com/folke/noice.nvim",
+	"https://github.com/folke/noice.nvim",
 	deps = {
 		"https://github.com/MunifTanjim/nui.nvim",
 	},

@@ -1,5 +1,5 @@
 Pack.register({
-	spec = "https://github.com/stevearc/overseer.nvim",
+	"https://github.com/stevearc/overseer.nvim",
 	module = "overseer",
 }):load({
 	event = "UIEnter",

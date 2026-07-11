@@ -4,6 +4,7 @@ local state = require("hooks.lsp.state")
 local control = require("hooks.lsp.control")
 local sync = require("hooks.lsp.sync")
 local listen = require("hooks.lsp.listen")
+local ensure_lua_ls_plugin = require("hooks.util.ensure_lua_ls_plugin")
 
 local M = {}
 
@@ -13,6 +14,7 @@ local function activate()
 	end
 	state.activated = true
 	state.lazy_pending = false
+	ensure_lua_ls_plugin()
 	listen()
 	sync(nil, true)
 end

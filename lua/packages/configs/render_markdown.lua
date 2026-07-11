@@ -1,5 +1,5 @@
 Pack.register({
-	spec = "https://github.com/MeanderingProgrammer/render-markdown.nvim",
+	"https://github.com/MeanderingProgrammer/render-markdown.nvim",
 	module = "render-markdown",
 }):load({
 	event = "FileType",

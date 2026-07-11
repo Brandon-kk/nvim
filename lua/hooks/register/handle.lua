@@ -18,6 +18,9 @@ function M:load(opts)
 	local Pack = _G.Pack
 	local notify_once = require("hooks.util.notify_once")
 
+	local require_utils = require("hooks.load.require_utils")
+	local call_config = require("hooks.load.call_config")
+
 	local function run()
 		local go = function()
 			-- packadd / deps；不传 config_fn，避免 Pack.inited 挡住每次 event 的 config
@@ -28,21 +31,27 @@ function M:load(opts)
 			if not opts.config then
 				return
 			end
-			local mod
-			if P.module then
-				local ok, loaded = pcall(require, P.module)
-				if not ok then
-					Pack.loaded[P.name] = nil
-					notify_once(
-						"handle:require:" .. P.name,
-						"Pack.handle:load(" .. P.name .. "): require 失败\n" .. tostring(loaded),
-						vim.log.levels.ERROR
-					)
-					return
-				end
-				mod = loaded
+			local ok, loaded = pcall(require, P.module)
+			if not ok then
+				Pack.loaded[P.name] = nil
+				notify_once(
+					"handle:require:" .. P.name,
+					"Pack.handle:load(" .. P.name .. "): require 失败\n" .. tostring(loaded),
+					vim.log.levels.ERROR
+				)
+				return
 			end
-			local setup_ok, err = pcall(opts.config, mod)
+			local utils, utils_err = require_utils(P.utils)
+			if not utils then
+				Pack.loaded[P.name] = nil
+				notify_once(
+					"handle:utils:" .. P.name,
+					"Pack.handle:load(" .. P.name .. "): utils 失败\n" .. tostring(utils_err),
+					vim.log.levels.ERROR
+				)
+				return
+			end
+			local setup_ok, err = call_config(opts.config, loaded, utils)
 			if not setup_ok then
 				Pack.loaded[P.name] = nil
 				notify_once(

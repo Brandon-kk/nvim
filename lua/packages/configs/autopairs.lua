@@ -1,5 +1,5 @@
 Pack.register({
-	spec = "https://github.com/windwp/nvim-autopairs",
+	"https://github.com/windwp/nvim-autopairs",
 	module = "nvim-autopairs",
 }):load({
 	event = "InsertEnter",

@@ -1,5 +1,5 @@
 Pack.register({
-	spec = "https://github.com/stevearc/conform.nvim",
+	"https://github.com/stevearc/conform.nvim",
 	module = "conform",
 }):load({
 	event = "BufReadPost",

@@ -1,5 +1,5 @@
---- 规范化 P.name（pack 目录名）与 P.module（require 路径）
---- Normalize P.name (pack dir) and P.module (require path)
+--- 规范化 P.name（pack 目录名）；不再猜测 P.module
+--- Normalize P.name (pack dir); do not infer P.module
 local function identity(P)
 	if not P then
 		return P
@@ -12,8 +12,6 @@ local function identity(P)
 	elseif P.name then
 		P.name = Pack.parse(P.name)
 	end
-
-	P.module = P.module or P.name
 
 	return P
 end

@@ -1,5 +1,5 @@
 Pack.register({
-	spec = "https://github.com/folke/flash.nvim",
+	"https://github.com/folke/flash.nvim",
 	module = "flash",
 }):load({
 	event = "BufReadPost",

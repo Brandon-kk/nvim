@@ -1,5 +1,5 @@
 Pack.register({
-	spec = "https://github.com/saghen/blink.cmp",
+	"https://github.com/saghen/blink.cmp",
 	deps = {
 		"https://github.com/saghen/blink.lib",
 		"https://github.com/rafamadriz/friendly-snippets",
@@ -7,12 +7,19 @@ Pack.register({
 		"https://github.com/xzbdmw/colorful-menu.nvim",
 	},
 	module = "blink.cmp",
+	utils = {
+		menu = "blink.cmp.completion.windows.menu",
+		list = "blink.cmp.completion.list",
+		colorful_menu = "colorful-menu",
+		lspkind = "lspkind",
+		devicons = "nvim-web-devicons",
+	},
 }):load({
 	event = { "InsertEnter", "CmdlineEnter", "LspAttach" },
 	once = true,
 	config = function(plugin)
 		local function is_menu_item_selected(ctx)
-			return ctx.idx == require("blink.cmp.completion.windows.menu").selected_item_idx
+			return ctx.idx == menu.selected_item_idx
 		end
 
 		local function selection_indicator_component(icon)
@@ -73,26 +80,26 @@ Pack.register({
 							selection_indicator_end = selection_indicator_component(" "),
 							label = {
 								text = function(ctx)
-									return require("colorful-menu").blink_components_text(ctx)
+									return colorful_menu.blink_components_text(ctx)
 								end,
 								highlight = function(ctx)
-									local text = require("colorful-menu").blink_components_text(ctx)
+									local text = colorful_menu.blink_components_text(ctx)
 									if is_menu_item_selected(ctx) then
 										return { { 0, #text, group = "BlinkCmpMenuSelection", priority = 20001 } }
 									end
-									return require("colorful-menu").blink_components_highlight(ctx)
+									return colorful_menu.blink_components_highlight(ctx)
 								end,
 							},
 							kind_icon = {
 								text = function(ctx)
 									local icon = ctx.kind_icon
 									if vim.tbl_contains({ "Path" }, ctx.source_name) then
-										local dev_icon, _ = require("nvim-web-devicons").get_icon(ctx.label)
+										local dev_icon, _ = devicons.get_icon(ctx.label)
 										if dev_icon then
 											icon = dev_icon
 										end
 									else
-										icon = require("lspkind").symbol_map[ctx.kind] or ""
+										icon = lspkind.symbol_map[ctx.kind] or ""
 									end
 
 									return icon .. ctx.icon_gap
@@ -101,7 +108,7 @@ Pack.register({
 								highlight = function(ctx)
 									local hl = ctx.kind_hl
 									if vim.tbl_contains({ "Path" }, ctx.source_name) then
-										local dev_icon, dev_hl = require("nvim-web-devicons").get_icon(ctx.label)
+										local dev_icon, dev_hl = devicons.get_icon(ctx.label)
 										if dev_icon then
 											hl = dev_hl
 										end
@@ -141,8 +148,7 @@ Pack.register({
 
 		-- blink 菜单只在打开时绘制一次，选中变化需手动重绘才能更新指示器/颜色
 		-- Blink menu paints once on open; redraw on selection change for indicator/colors
-		require("blink.cmp.completion.list").select_emitter:on(function()
-			local menu = require("blink.cmp.completion.windows.menu")
+		list.select_emitter:on(function()
 			if not menu.win:is_open() or not menu.renderer or not menu.context then
 				return
 			end

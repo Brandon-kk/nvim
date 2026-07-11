@@ -8,6 +8,14 @@ local function run_setup(item)
 	if not item.setup or _G.Pack.inited[item.name] then
 		return true
 	end
+	if type(item.module) ~= "string" or item.module == "" then
+		notify_once(
+			"dep:module:" .. item.name,
+			"依赖 " .. item.name .. " 有 setup 但缺少 module",
+			vim.log.levels.ERROR
+		)
+		return false
+	end
 	local mod_ok, mod = pcall(require, item.module)
 	if not mod_ok then
 		notify_once(

@@ -4,6 +4,8 @@ local notify_once = require("hooks.util.notify_once")
 local cycle = require("hooks.deps.cycle")
 local prepare = require("hooks.load.prepare")
 local load_dep = require("hooks.load.load_dep")
+local require_utils = require("hooks.load.require_utils")
+local call_config = require("hooks.load.call_config")
 
 ---@param P table
 ---@param config_fn? function
@@ -69,21 +71,36 @@ return function(P, config_fn)
 		if Pack.inited[P.name] then
 			return true
 		end
-		local mod
-		if P.module then
-			local mod_ok, loaded = pcall(require, P.module)
-			if not mod_ok then
-				Pack.loaded[P.name] = nil
-				notify_once(
-					"load:require:" .. P.name,
-					"Pack.load(" .. P.name .. "): require 失败\n" .. tostring(loaded),
-					vim.log.levels.ERROR
-				)
-				return false
-			end
-			mod = loaded
+		if type(P.module) ~= "string" or P.module == "" then
+			Pack.loaded[P.name] = nil
+			notify_once(
+				"load:module:" .. P.name,
+				"Pack.load(" .. P.name .. "): module 为必填字符串",
+				vim.log.levels.ERROR
+			)
+			return false
 		end
-		local setup_ok, err = pcall(config_fn, mod)
+		local mod_ok, loaded = pcall(require, P.module)
+		if not mod_ok then
+			Pack.loaded[P.name] = nil
+			notify_once(
+				"load:require:" .. P.name,
+				"Pack.load(" .. P.name .. "): require 失败\n" .. tostring(loaded),
+				vim.log.levels.ERROR
+			)
+			return false
+		end
+		local utils, utils_err = require_utils(P.utils)
+		if not utils then
+			Pack.loaded[P.name] = nil
+			notify_once(
+				"load:utils:" .. P.name,
+				"Pack.load(" .. P.name .. "): utils 失败\n" .. tostring(utils_err),
+				vim.log.levels.ERROR
+			)
+			return false
+		end
+		local setup_ok, err = call_config(config_fn, loaded, utils)
 		if not setup_ok then
 			Pack.loaded[P.name] = nil
 			notify_once(

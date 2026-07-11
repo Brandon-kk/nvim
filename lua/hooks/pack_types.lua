@@ -9,17 +9,19 @@
 ---@field version? string|table 版本 / 分支 / tag / version range（vim.pack）
 --- Version, branch, tag, or version range (vim.pack)
 
----@alias Pack.Spec string|Pack.SpecTable
+---@alias Pack.Spec Pack.SpecTable
 
 ---@class Pack.Dep
----@field src? string 依赖仓库（与 spec 二选一）
---- Dependency repo URL (mutually exclusive with spec)
----@field spec? Pack.Spec 依赖规格（与 src 二选一）
---- Dependency spec (mutually exclusive with src)
+---@field [1]? string 仓库 URL 简写（与 src / spec 三选一）
+--- Shorthand repo URL (mutually exclusive with src / spec)
+---@field src? string 依赖仓库 URL（与 [1] / spec 三选一）
+--- Dependency repo URL (mutually exclusive with [1] / spec)
+---@field spec? Pack.SpecTable 依赖规格 table（与 [1] / src 三选一）
+--- Dependency spec table (mutually exclusive with [1] / src)
 ---@field name? string pack 目录名
 --- Pack directory name
----@field module? string require 路径，默认 name
---- Require path; defaults to name
+---@field module? string 有 setup 时必填的 require 路径（不再从 name 猜测）
+--- Require path; required when setup is set (not inferred from name)
 ---@field setup? fun(plugin: any) 依赖 packadd 后执行
 --- Runs after dependency packadd
 ---@field build_cmd? string|string[]|fun(name: string, dir: string) 构建：shell / :Vim 命令 / 函数
@@ -28,16 +30,22 @@
 --- Nested dependencies
 ---@field immediately? boolean true 且有 setup 时，install/eager 阶段抢先加载（默认 false）
 --- If true with setup, load early during install/eager (default false)
+---@field version? string|table 版本（写入 [1]/src 简写时）
+--- Version (when using [1]/src shorthand)
 
 ---@class Pack.Plugin
----@field spec Pack.Spec 插件规格（必填）
---- Plugin spec (required)
----@field module? string require 路径；默认等于解析出的 name
---- Require path; defaults to resolved name
+---@field [1]? string 仓库 URL 简写（与 register 首参字符串 / spec 二选一）
+--- Shorthand repo URL (alternative to register("url") / spec)
+---@field spec? Pack.SpecTable 插件规格 table（必填，除非首参或 [1] 为 URL）
+--- Plugin spec table (required unless first arg or [1] is URL)
+---@field module string require 路径（必填；不再从 name 猜测）
+--- Require path (required; not inferred from name)
 ---@field name? string pack 目录名；通常由 spec 自动解析
 --- Pack directory name; usually resolved from spec
----@field deps? (string|Pack.Dep)[] 依赖列表
---- Dependency list
+---@field deps? (string|Pack.Dep)[] 依赖列表（元素可为 URL 字符串或 Dep 表）
+--- Dependency list (URL string or Dep table)
+---@field utils? table<string, string> 额外 require：键为合法标识符；setfenv 注入；lua_ls 由 hooks 内置插件识别
+--- Extra requires: identifier keys; setfenv inject; lua_ls via built-in hooks plugin
 ---@field disabled? boolean true 时登记但不加载
 --- If true, register but do not load
 ---@field build_cmd? string|string[]|fun(name: string, dir: string) 安装后构建：shell / ":TSUpdate" / function
@@ -60,8 +68,8 @@
 --- Autocmd arg 1; omit to load immediately
 ---@field time_sequence? boolean true → vim.schedule 后再 Pack.load（默认 false）
 --- If true, Pack.load via vim.schedule (default false)
----@field config? fun(plugin: any) 加载后回调，只接收 module；无 module 时为 nil
---- Post-load callback; receives module or nil
+---@field config? fun(plugin: any) 加载后回调；utils 键经 setfenv 可直接使用（如 menu.xxx）
+--- Post-load callback; utils keys usable as bare names via setfenv (e.g. menu.xxx)
 ---@field once? boolean 透传 autocmd
 --- Pass-through autocmd option
 ---@field pattern? string|string[] 透传 autocmd
@@ -104,7 +112,7 @@
 --- User-facing Pack API only (internals omitted so Pack. completion stays clean)
 ---@class Pack
 ---@field boot fun(config: string): Pack.BootHandle
----@field register fun(P: Pack.Plugin): Pack.Handle|nil
+---@field register fun(src_or_plugin: string|Pack.Plugin, opts?: Pack.Plugin): Pack.Handle|nil
 ---@field update fun(targets?: string[], opts?: table)
 ---@field lsp Pack.Lsp
 ---@field root fun(markers: string|(string|string[])[]): fun(bufnr: integer, on_dir: fun(dir: string))

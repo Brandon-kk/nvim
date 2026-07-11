@@ -1,6 +1,9 @@
 Pack.register({
-	spec = "https://github.com/folke/snacks.nvim",
+	"https://github.com/folke/snacks.nvim",
 	module = "snacks",
+	utils = {
+		lsp_config = "snacks.picker.source.lsp.config",
+	},
 }):load({
 	event = "VimEnter",
 	config = function(plugin)
@@ -125,7 +128,7 @@ Pack.register({
 									enabled = false,
 								})
 							end
-							return require("snacks.picker.source.lsp.config").format(item, picker)
+							return lsp_config.format(item, picker)
 						end,
 					},
 				},

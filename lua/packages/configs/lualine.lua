@@ -1,8 +1,11 @@
 Pack.register({
-	spec = "https://github.com/nvim-lualine/lualine.nvim",
+	"https://github.com/nvim-lualine/lualine.nvim",
 	module = "lualine",
 	deps = {
 		"https://github.com/pnx/lualine-lsp-status",
+	},
+	utils = {
+		themes_auto = "lualine.themes.auto",
 	},
 }):load({
 	event = "BufReadPost",
@@ -12,7 +15,7 @@ Pack.register({
 			options = {
 				icons_enabled = true,
 				theme = function()
-					local base = require("lualine.themes.auto")
+					local base = themes_auto
 					for _, mode in pairs(base) do
 						if type(mode) == "table" then
 							for _, section in pairs(mode) do
