@@ -17,6 +17,9 @@ Pack.register({
 
 			return lsp_config.format(item, picker)
 		end,
+		transform = function(item)
+			return item.name ~= "*" and item.name ~= "vim.pack"
+		end,
 	},
 	config = function(plugin)
 		plugin.setup({
@@ -145,6 +148,7 @@ Pack.register({
 					},
 					lsp_config = {
 						format = lsp_config_format,
+						transform = transform,
 					},
 				},
 				formatters = {

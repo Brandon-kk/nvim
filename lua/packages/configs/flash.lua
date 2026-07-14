@@ -4,7 +4,6 @@ Pack.register({
 }):load({
 	event = "BufReadPost",
 	once = true,
-	defer = true,
 	config = function(plugin)
 		plugin.setup({})
 

@@ -1,7 +1,7 @@
 return {
 	cmd = { "lua-language-server" },
 	filetypes = { "lua" },
-	root_dir = Pack.root({ ".luarc.json", ".luarc.jsonc" }),
+	root_dir = Pack.root({ ".luarc.json", ".luarc.jsonc", "nvim-pack-lock.json" }),
 	settings = {
 		Lua = {
 			runtime = {

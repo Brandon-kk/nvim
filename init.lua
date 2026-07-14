@@ -1,6 +1,4 @@
-vim.cmd.packadd("OP.nvim")
-
-require("op")
+vim.cmd.packadd("Automic.pkg")
 
 Pack.boot("packages.configs"):custom({
 	"core.options",
