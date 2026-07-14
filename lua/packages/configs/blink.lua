@@ -138,7 +138,7 @@ Pack.register({
 				},
 			},
 			sources = {
-				default = { "lsp", "path", "snippets", "buffer" },
+				default = { "snippets", "lsp", "path", "buffer" },
 			},
 			appearance = {
 				use_nvim_cmp_as_default = true,
