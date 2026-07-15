@@ -1,5 +1,5 @@
 return {
-	LspAttach = {
+	LSPLineDiagnostics = {
 		event = "LspAttach",
 		callback = function(event)
 			vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = event.buf, desc = "LSP: Go To Definition" })
