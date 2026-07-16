@@ -2,9 +2,7 @@ Pack.register({
 	"https://github.com/xiyaowong/transparent.nvim",
 	module = "transparent",
 }):load({
-	event = { "ColorScheme" },
-	pattern = { "*" },
-	once = true,
+	colorscheme = "catppuccin",
 	config = function(plugin)
 		plugin.setup({
 			groups = {
